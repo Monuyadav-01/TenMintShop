@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "537922556273",
+    "project_id": "tenmintshop-77a28",
+    "storage_bucket": "tenmintshop-77a28.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:537922556273:android:b6757ab36e7145ded026d0",
+        "android_client_info": {
+          "package_name": "com.example.tenmintshop"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTDlNxNQ82Y-JIqvNytn3zObCtMzJaTNw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
