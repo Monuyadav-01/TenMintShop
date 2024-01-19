@@ -6,7 +6,6 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -34,12 +33,55 @@ class OtpFragment : Fragment() {
 
         getUserNumber()
         customizingEnteringOTP()
-        onBackButtonClick()
         sendOTP()
+        onOTPButtonClick()
+        onBackButtonClick()
+
         return binding.root
 
 
     }
+
+    private fun onOTPButtonClick() {
+        binding.verifyBtn.setOnClickListener {
+            Utils.showDialog(requireContext(), "Signing You .....")
+            val editTexts = arrayOf(
+                binding.etOtp1,
+                binding.etOtp2,
+                binding.etOtp3,
+                binding.etOtp4,
+                binding.etOtp5,
+                binding.etOtp6
+            )
+            val otp = editTexts.joinToString("") { it.text.toString() }
+
+            if (otp.length < editTexts.size) {
+                Utils.showToast(requireContext(), "enter correct otp")
+            } else {
+                editTexts.forEach {
+                    it.text?.clear();
+                    it.clearFocus()
+                }
+                verifyOtp(otp)
+            }
+        }
+    }
+
+    private fun verifyOtp(otp: String) {
+
+        viewModel.signInWithPhoneAuthCredential(otp, userNumber)
+
+        lifecycleScope.launch {
+            viewModel.isSignedSuccessFully.collect {
+                if (it) {
+                    Utils.showToast(requireContext(), "signin successfully")
+                } else {
+                    Utils.showToast(requireContext(), "something went wrong")
+                }
+            }
+        }
+    }
+
 
     private fun sendOTP() {
         Utils.showDialog(requireContext(), "Sending OTP .....")
@@ -47,11 +89,11 @@ class OtpFragment : Fragment() {
         viewModel.apply {
             sendOtp(userNumber, requireActivity())
             lifecycleScope.launch {
-                otpSent.collect {otpSent->
-                if(otpSent){
-                    Utils.hideDialog()
-                    Utils.showToast(requireContext(), "Otp Sent to Your Number")
-                }
+                otpSent.collect { otpSent ->
+                    if (otpSent) {
+                        Utils.hideDialog()
+                        Utils.showToast(requireContext(), "Otp Sent to Your Number")
+                    }
                 }
             }
 

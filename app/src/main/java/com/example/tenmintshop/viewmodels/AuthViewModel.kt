@@ -20,6 +20,9 @@ class AuthViewModel : ViewModel() {
     private val _otpSent = MutableStateFlow(false)
     val otpSent = _otpSent
 
+    private var _isSignedSuccessFully = MutableStateFlow(false)
+    val isSignedSuccessFully = _isSignedSuccessFully
+
     fun sendOtp(userNumber: String, activity: Activity) {
 
         val callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
@@ -60,6 +63,18 @@ class AuthViewModel : ViewModel() {
             .build()
         PhoneAuthProvider.verifyPhoneNumber(options)
 
+    }
+
+     fun signInWithPhoneAuthCredential(otp : String , userNumber: String) {
+        val credential = PhoneAuthProvider.getCredential(_verificationId.value.toString(), otp)
+        Utils.getAuthInstanse().signInWithCredential(credential)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                _isSignedSuccessFully.value = true
+                } else {
+
+                }
+            }
     }
 
 
