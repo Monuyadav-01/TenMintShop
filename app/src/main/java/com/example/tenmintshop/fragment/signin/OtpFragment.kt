@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.tenmintshop.R
 import com.example.tenmintshop.databinding.FragmentOtpBinding
+import com.example.tenmintshop.models.Users
 import com.example.tenmintshop.utils.Utils
 import com.example.tenmintshop.viewmodels.AuthViewModel
 import kotlinx.coroutines.launch
@@ -69,14 +70,17 @@ class OtpFragment : Fragment() {
 
     private fun verifyOtp(otp: String) {
 
-        viewModel.signInWithPhoneAuthCredential(otp, userNumber)
+        val user = Users(uid = Utils.getCurrentUserId(), userNumber, userAddress = null)
+
+        viewModel.signInWithPhoneAuthCredential(otp, userNumber , user)
 
         lifecycleScope.launch {
             viewModel.isSignedSuccessFully.collect {
                 if (it) {
                     Utils.showToast(requireContext(), "signin successfully")
+                    Utils.hideDialog()
                 } else {
-                    Utils.showToast(requireContext(), "something went wrong")
+
                 }
             }
         }

@@ -9,6 +9,7 @@ import com.google.firebase.auth.FirebaseAuth
 
 object Utils {
 
+
     private var dialog: AlertDialog? = null
 
     fun showDialog(context: Context, message: String) {
@@ -24,7 +25,7 @@ object Utils {
     }
 
     fun showToast(context: Context, message: String) {
-        Toast.makeText(context, "", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
     private var firebaseAuthInstanse: FirebaseAuth? = null
@@ -36,5 +37,11 @@ object Utils {
         return firebaseAuthInstanse!!
     }
 
+    fun getCurrentUserId(): String {
+        return FirebaseAuth.getInstance().currentUser!!.uid
+    }
 
+    fun getUserPhoneNumber(): String {
+        return FirebaseAuth.getInstance().currentUser!!.phoneNumber.toString()
+    }
 }
