@@ -74,19 +74,6 @@
             android:textSize="19.50sp"
             />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/startBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Login"
-            app:cornerRadius="7dp"
-            android:layout_marginStart="@dimen/_50sdp"
-            android:layout_marginEnd="@dimen/_50sdp"
-            android:backgroundTint="#217576"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-
-            />
     </LinearLayout>
 
 

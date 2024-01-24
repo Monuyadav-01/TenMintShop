@@ -19,11 +19,24 @@ import java.util.concurrent.TimeUnit
 
 class AuthViewModel : ViewModel() {
     private val _verificationId = MutableStateFlow<String?>(null)
+
     private val _otpSent = MutableStateFlow(false)
     val otpSent = _otpSent
 
     private var _isSignedSuccessFully = MutableStateFlow(false)
     val isSignedSuccessFully = _isSignedSuccessFully
+
+
+    private var _isCurrentUserLogin = MutableStateFlow(false)
+    var isCurrentUserLogin = _isCurrentUserLogin
+
+
+    init {
+
+        Utils.getAuthInstanse().currentUser?.let {
+            _isCurrentUserLogin.value = true
+        }
+    }
 
     fun sendOtp(userNumber: String, activity: Activity) {
 

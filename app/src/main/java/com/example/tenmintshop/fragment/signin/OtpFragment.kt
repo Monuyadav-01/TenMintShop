@@ -1,5 +1,6 @@
 package com.example.tenmintshop.fragment.signin
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -11,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.tenmintshop.R
+import com.example.tenmintshop.activity.UsersMainActivity
 import com.example.tenmintshop.databinding.FragmentOtpBinding
 import com.example.tenmintshop.models.Users
 import com.example.tenmintshop.utils.Utils
@@ -72,14 +74,18 @@ class OtpFragment : Fragment() {
 
         val user = Users(uid = Utils.getCurrentUserId(), userNumber, userAddress = null)
 
-        viewModel.signInWithPhoneAuthCredential(otp, userNumber , user)
+        viewModel.signInWithPhoneAuthCredential(otp, userNumber, user)
 
         lifecycleScope.launch {
             viewModel.isSignedSuccessFully.collect {
-                if (it) {
-                    Utils.showToast(requireContext(), "signin successfully")
+                if (it == true) {
                     Utils.hideDialog()
+                    startActivity(Intent(requireActivity(), UsersMainActivity::class.java))
+                    requireActivity().finish()
+
+
                 } else {
+                    Utils.hideDialog()
 
                 }
             }

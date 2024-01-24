@@ -1,9 +1,14 @@
 package com.example.tenmintshop.utils
 
+import android.app.Activity
 import android.content.Context
+import android.os.Build
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
+import com.example.tenmintshop.R
 import com.example.tenmintshop.databinding.ProgrssDialogBinding
 import com.google.firebase.auth.FirebaseAuth
 
@@ -43,5 +48,15 @@ object Utils {
 
     fun getUserPhoneNumber(): String {
         return FirebaseAuth.getInstance().currentUser!!.phoneNumber.toString()
+    }
+
+    fun setStatusBarColor(context: Context , activity : Activity){
+        activity?.window?.apply {
+            val statusBarColors = ContextCompat.getColor(context, R.color.yellow)
+            statusBarColor = statusBarColors
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            }
+        }
     }
 }

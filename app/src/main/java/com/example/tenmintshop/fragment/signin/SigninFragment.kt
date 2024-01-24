@@ -27,7 +27,7 @@ class SigninFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentSigninBinding.inflate(inflater, container, false)
 
-        setStatusBarColor()
+        activity?.let { Utils. setStatusBarColor(requireContext() , it) }
         // for get user data
         getUserNumber()
         // on continue button click for get user details for this user time
@@ -97,15 +97,7 @@ class SigninFragment : Fragment() {
 
 
 
-    private fun setStatusBarColor() {
-        activity?.window?.apply {
-            val statusBarColors = ContextCompat.getColor(requireContext(), R.color.yellow)
-            statusBarColor = statusBarColors
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-            }
-        }
-    }
+
 
 }
 
