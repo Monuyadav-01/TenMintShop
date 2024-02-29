@@ -42,8 +42,9 @@ object Utils {
         return firebaseAuthInstanse!!
     }
 
-    fun getCurrentUserId(): String {
-        return FirebaseAuth.getInstance().currentUser!!.uid
+    fun getCurrentUserId(): String? {
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        return currentUser?.phoneNumber
     }
 
     fun getUserPhoneNumber(): String {

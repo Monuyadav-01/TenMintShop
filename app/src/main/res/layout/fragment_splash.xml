@@ -64,14 +64,13 @@
             android:textColor="#000000"
             android:textSize="19.50sp"
             />
-        <TextView
-            android:id="@+id/textAnimation"
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/start_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
-            android:text=""
-            android:textColor="#000000"
-            android:textSize="19.50sp"
+            android:text="start"
+            android:textColor="@color/white"
+            android:backgroundTint="#1486ff"
             />
 
     </LinearLayout>

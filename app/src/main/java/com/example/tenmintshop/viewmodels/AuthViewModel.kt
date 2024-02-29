@@ -27,14 +27,14 @@ class AuthViewModel : ViewModel() {
     val isSignedSuccessFully = _isSignedSuccessFully
 
 
-    private var _isCurrentUserLogin = MutableStateFlow(false)
-    var isCurrentUserLogin = _isCurrentUserLogin
+    private var _isCurrentUser = MutableStateFlow(false)
+    var isCurrentUser = _isCurrentUser
 
 
     init {
 
         Utils.getAuthInstanse().currentUser?.let {
-            _isCurrentUserLogin.value = true
+            _isCurrentUser.value = true
         }
     }
 

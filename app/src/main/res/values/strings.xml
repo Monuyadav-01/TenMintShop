@@ -4,4 +4,8 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="todo">TODO</string>
     <string name="get_otp">Get Otp</string>
+    <string name="shop_by_category">Shop by Category</string>
+    <string name="bestsellers">BestSellers</string>
+    <string name="search">search</string>
+    <string name="vegetables_and_fruits">Vegetables and Fruits</string>
 </resources>

@@ -26,23 +26,21 @@ class OtpFragment : Fragment() {
     private lateinit var userNumber: String
     private val viewModel: AuthViewModel by viewModels()
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         binding = FragmentOtpBinding.inflate(inflater, container, false)
-
         getUserNumber()
+        setListeners()
+        return binding.root
+    }
+
+    private fun setListeners() {
         customizingEnteringOTP()
         sendOTP()
         onOTPButtonClick()
         onBackButtonClick()
-
-        return binding.root
-
-
     }
 
     private fun onOTPButtonClick() {
@@ -59,10 +57,10 @@ class OtpFragment : Fragment() {
             val otp = editTexts.joinToString("") { it.text.toString() }
 
             if (otp.length < editTexts.size) {
-                Utils.showToast(requireContext(), "enter correct otp")
+                Utils.showToast(requireContext(), "Enter correct OTP")
             } else {
                 editTexts.forEach {
-                    it.text?.clear();
+                    it.text?.clear()
                     it.clearFocus()
                 }
                 verifyOtp(otp)
@@ -71,42 +69,61 @@ class OtpFragment : Fragment() {
     }
 
     private fun verifyOtp(otp: String) {
-
         val user = Users(uid = Utils.getCurrentUserId(), userNumber, userAddress = null)
 
         viewModel.signInWithPhoneAuthCredential(otp, userNumber, user)
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.isSignedSuccessFully.collect {
-                if (it == true) {
+                if (it) {
                     Utils.hideDialog()
                     startActivity(Intent(requireActivity(), UsersMainActivity::class.java))
                     requireActivity().finish()
-
-
                 } else {
                     Utils.hideDialog()
-
+                    // Handle error case if needed
                 }
             }
         }
+//
+//        val userId = Utils.getCurrentUserId()
+//        if (userId != null) {
+//            val user = Users(uid = userId, userNumber = userNumber, userAddress = null)
+//
+//            Utils.showDialog(requireContext(), "Signing You .....")
+//            viewModel.signInWithPhoneAuthCredential(otp, userNumber, user)
+//
+//            viewLifecycleOwner.lifecycleScope.launch {
+//                viewModel.isSignedSuccessFully.collect {
+//                    if (it) {
+//                        Utils.hideDialog()
+//                        startActivity(Intent(requireActivity(), UsersMainActivity::class.java))
+//                        requireActivity().finish()
+//                    } else {
+//                        Utils.hideDialog()
+//                        // Handle error case if needed
+//                    }
+//                }
+//            }
+//        } else {
+//            // Handle the case where the user ID is null (e.g., show an error message)
+////            Utils.showToast(requireContext(), "Failed to get user ID")
+//        }
     }
-
 
     private fun sendOTP() {
         Utils.showDialog(requireContext(), "Sending OTP .....")
 
         viewModel.apply {
             sendOtp(userNumber, requireActivity())
-            lifecycleScope.launch {
+            viewLifecycleOwner.lifecycleScope.launch {
                 otpSent.collect { otpSent ->
                     if (otpSent) {
                         Utils.hideDialog()
-                        Utils.showToast(requireContext(), "Otp Sent to Your Number")
+                        Utils.showToast(requireContext(), "OTP Sent to Your Number")
                     }
                 }
             }
-
         }
     }
 
@@ -127,24 +144,8 @@ class OtpFragment : Fragment() {
         )
         for (i in editTexts.indices) {
             editTexts[i].addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(
-                    s: CharSequence?,
-                    start: Int,
-                    count: Int,
-                    after: Int
-                ) {
-
-                }
-
-                override fun onTextChanged(
-                    s: CharSequence?,
-                    start: Int,
-                    before: Int,
-                    count: Int
-                ) {
-
-                }
-
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
                 override fun afterTextChanged(s: Editable?) {
                     if (s?.length == 1) {
                         if (i < editTexts.size - 1) {
@@ -156,17 +157,13 @@ class OtpFragment : Fragment() {
                         }
                     }
                 }
-
             })
-
         }
     }
-
 
     private fun getUserNumber() {
         val bundle = arguments
         userNumber = bundle?.getString("number").toString()
         binding.tvUserNumber.text = userNumber
     }
-
 }
